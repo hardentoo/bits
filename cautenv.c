@@ -95,8 +95,7 @@ int main(int argc, char **argv)
 	}
 	dirfd = open("/proc/self/fd/", O_RDONLY|O_DIRECTORY);
 	if (dirfd < 0 || (fds = fdopendir(dirfd))==NULL) {
-		dprintf(2, "%s: cannot enumerate fds to close\n", argv[0]);
-		_exit(2);
+		die("cannot enumerate fds to close (/proc not mounted?)");
 	}
 	while (fdent = readdir(fds)) {
 		cfd = atoi(fdent->d_name);
