@@ -1,0 +1,40 @@
+A collection of small bits of C code
+
+Here's a collection of experiments I wrote.
+
+License: dedicated to the public domain where permitted by law via CC0.
+
+Contents:
+cautenv.c - cauterize the environment
+ This cleans the environment, allowing only a small collection of variables
+ through if the user specifies. All fds above 2 are closed, and the cwd is
+ set to "/" or a user-specified directory.
+ Largely an exercise in "how do you clean the environment" and closing all fds,
+ but it can be useful if you want to run something under a fixed environment.
+ To use it for scripts, set the shebang to "#!/.../cautenv /bin/sh".
+ Caveats:
+ You must use -c . if you want relative paths to work.
+ Scripts that are not in the *new* path (/bin:/usr/bin for nonroot,
+ /sbin:/bin:/usr/sbin:/usr/bin for root) must be named by a path that
+ can be resolved from the *new* cwd.
+
+tempnftw.c - show hardware temperatures from sysfs
+ This is a useable but incomplete experiment in getting hardware temperatures.
+ Probably more useful as an example of the nftw() API.
+tempglob.c - same, but implemented with glob().
+ Slightly more complete.
+ As you can see by comparing the two, glob() was the better API here;
+ but this does not hold true in all situations.
+
+readdir.c - list files in a directory
+ readdir() example that you might find useful if you don't have ls but
+ you have a working toolchain (in other words, maybe if you use dd-wrt micro).
+ Outputs all files, showing inode numbers and the file type as used by find.
+ Not portable: uses the linux d_type extension.
+
+auxtest.c - getauxval() example
+
+socketfork.c - test how many trivial socket-using processes you can spawn.
+ Partly intended as a tool to examine effects of a near-forkbomb, but in a
+ controlled way. 
+ Also a socketpair() example.
